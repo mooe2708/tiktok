@@ -1,237 +1,183 @@
-import re
-from os import system
-from time import sleep
+#github.com/useragents
 
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException
+#
+#DO NOT EDIT THIS PYTHON FILE
+#SOME YOUTUBERS HAVE POSTED MY SCRIPT AND THEY TELL THEIR VIEWERS TO EDIT THE CODE
+#DO NOT EDIT IT, THIS IS LATEST VERSION AND IT DOES EVERYTHING FOR YOU
+#SIMPLY RUN IT WITH PYTHON AFTER INSTRUCTIONS ARE DONE.
+
+try:
+    import undetected_chromedriver as uc
+    from colorama import Fore, init, Style
+    import ctypes, platform, os, time
+    import selenium, requests, webbrowser
+except ImportError:
+    input("You do not have all of the modules required installed.")
+    os._exit(1)
+
+text = """
+ ███████ ███████ ███████  ██████  ██    ██ 
+    ███  ██      ██      ██    ██  ██  ██  
+   ███   █████   █████   ██    ██   ████   
+  ███    ██      ██      ██    ██    ██    
+ ███████ ███████ ██       ██████     ██    """
 
 
-class Bot:
+class zefoy:
 
     def __init__(self):
-        system("cls || clear")
-
-        self._print_banner()
-        self.driver = self._init_driver()
-        self.services = self._init_services()
-
-    def start(self):
-        self.driver.get("https://zefoy.com")
-        self._solve_captcha()
-        self._check_services_status()
-        self.driver.minimize_window()
-        self._print_services_list()
-        service = self._choose_service()
-        video_url = self._choose_video_url()
-        self._start_service(service, video_url)
-
-    def _print_banner(self):
-        print("+--------------------------------------------------------+")
-        print("|                                                        |")
-        print("|   Made by : Simon Farah                                |")
-        print("|   Github  : https://github.com/simonfarah/tiktok-bot   |")
-        print("|                                                        |")
-        print("+--------------------------------------------------------+")
-
-        print("\n")
-
-    def _init_driver(self):
-        try:
-            print("[~] Loading driver, please wait...")
-
-            options = webdriver.FirefoxOptions()
-            options.binary_location = "C:\\Program Files\\Mozilla Firefox\\firefox.exe"
-            options.add_argument("--width=800")
-            options.add_argument("--height=700")
-
-            service = webdriver.FirefoxService(log_output="geckodriver.log")
-            service.path = "geckodriver.exe"
-
-            driver = webdriver.Firefox(options=options, service=service)
-
-            print("[+] Driver loaded successfully")
-        except Exception as e:
-            print("[x] Error loading driver: {}".format(e))
-            exit(1)
-
-        print("\n")
-        return driver
-
-    def _init_services(self):
-        return {
-            "followers": {
-                "title": "Followers",
-                "selector": "t-followers-button",
-                "status": None,
-            },
-            "hearts": {
-                "title": "Hearts",
-                "selector": "t-heart-button",
-                "status": None,
-            },
-            "comments_hearts": {
-                "title": "Comments Hearts",
-                "selector": "t-chearts-button",
-                "status": None,
-            },
-            "views": {
-                "title": "Views",
-                "selector": "t-views-button",
-                "status": None,
-            },
-            "shares": {
-                "title": "Shares",
-                "selector": "t-shares-button",
-                "status": None,
-            },
-            "favorites": {
-                "title": "Favorites",
-                "selector": "t-favorites-button",
-                "status": None,
-            },
-            "live_stream": {
-                "title": "Live Stream [VS+LIKES]",
-                "selector": "t-livesteam-button",
-                "status": None,
-            },
+        self.driver = uc.Chrome()
+        self.url = "https://zefoy.com"
+        self.captcha_box = '/html/body/div[4]/div[2]/form/div/div'
+        self.clear = "clear"
+        if platform.system() == "Windows":
+            self.clear = "cls"
+        self.color = Fore.BLUE
+        self.sent = 0
+        self.xpaths = {
+            "followers": "/html/body/div[5]/div[1]/div[3]/div[2]/div[1]/div/button",
+            "hearts": "/html/body/div[5]/div[1]/div[3]/div[2]/div[2]/div/button",
+            "comment_hearts": "/html/body/div[5]/div[1]/div[3]/div[2]/div[3]/div/button",
+            "views": "/html/body/div[5]/div[1]/div[3]/div[2]/div[4]/div/button",
+            "shares": "/html/body/div[5]/div[1]/div[3]/div[2]/div[5]/div/button",
+            "favorites": "/html/body/div[5]/div[1]/div[3]/div[2]/div[6]/div/button",
         }
+        self.discord = "https://pastebin.com/raw/uB8UYqdh"
+        
+    def main(self):
+        os.system(self.clear)
+        self.change_title("TikTok Automator using zefoy.com | Github: @useragents")
+        print(self.color + text)
+        self.driver.get(self.url)
+        print("\n" + self._print("Waiting for Zefoy to load... 502 Error = Blocked country or VPN is on"))
+        self.wait_for_xpath(self.captcha_box)
+        print(self._print("Site loaded, enter the CAPTCHA to continue."))
+        print(self._print("Waiting for you..."))
+        self.wait_for_xpath(self.xpaths["followers"])
+        os.system(self.clear)
+        status = self.check_status()
+        print(self.color + text)
+        print()
+        print(self._print(f"Join our {self.color}Discord Server{Fore.WHITE} for exclusive FREE tools."))
+        print(self._print(f"You can also get updates when Zefoy updates the bots and more."))
+        print(self._print(f"Select your option below." + "\n"))
+        counter = 1
+        for thing in status:
+            print(self._print(f"{thing} {status[thing]}", counter))
+            counter += 1
+        print(self._print(f"Discord / Support", "7"))
+        option = int(input("\n" + self._print(f"")))
+        if option == 1:
+            div = "2"
+            self.driver.find_element("xpath", self.xpaths["followers"]).click()
+        elif option == 2:
+            div = "3"
+            self.driver.find_element("xpath", self.xpaths["hearts"]).click()
+        elif option == 3:
+            div = "4"
+            self.driver.find_element("xpath", self.xpaths["comment_hearts"]).click()
+        elif option == 4: #Views
+            div = "5"
+            self.driver.find_element("xpath", self.xpaths["views"]).click()
+        elif option == 5:
+            div = "6"
+            self.driver.find_element("xpath", self.xpaths["shares"]).click()
+        elif option == 6:
+            div = "7"
+            self.driver.find_element("xpath", self.xpaths["favorites"]).click()
+        elif option == 7:
+            webbrowser.open(self.get_discord())
+            os._exit(1)
+        else:
+            os._exit(1)
+        video_url_box = f'/html/body/div[4]/div[{div}]/div/form/div/input'
+        search_box = f'/html/body/div[4]/div[{div}]/div/form/div/div/button'
+        vid_info = input("\n" + self._print(f"Username/VideoURL: "))
+        self.send_bot(search_box, video_url_box, vid_info, div)
 
-    def _solve_captcha(self):
-        self._wait_for_element(By.TAG_NAME, "input")
-        print("[~] Please complete the captcha")
+    def get_discord(self):
+        try:
+            return requests.Session().get(self.discord).text.splitlines()[0]
+        except Exception:
+            return "https://discord.gg/NrnKpUYjWR"
+        
+    def send_bot(self, search_button, main_xpath, vid_info, div):
+        element = self.driver.find_element('xpath', main_xpath)
+        element.clear()
+        element.send_keys(vid_info)
+        self.driver.find_element('xpath', search_button).click()
+        time.sleep(3)
+        ratelimit_seconds, full = self.check_submit(div)
+        if "(s)" in str(full):
+            self.main_sleep(ratelimit_seconds)
+            self.driver.find_element('xpath', search_button).click()
+            time.sleep(2)
+        time.sleep(3)
+        #input('Press ENTER to continue. This may cause errors, please ss zefoy before incase.')
+        send_button = f'/html/body/div[5]/div[{div}]/div/div/div[1]/div/form/button'
+        self.driver.find_element('xpath', send_button).click()
+        self.sent += 1
+        print(self._print(f"Sent {self.sent} times."))
+        time.sleep(4)
+        self.send_bot(search_button, main_xpath, vid_info, div)
 
-        self._wait_for_element(By.LINK_TEXT, "Youtube")
-        print("[+] Captcha completed successfully")
+    def main_sleep(self, delay):
+        while delay != 0:
+            time.sleep(1)
+            delay -= 1
+            self.change_title(f"TikTok Zefoy Automator using Zefoy.com | Cooldown: {delay}s | Github: @useragents")
 
-        print("\n")
+    def convert(self, min, sec):
+        seconds = 0
+        if min != 0:
+            answer = int(min) * 60
+            seconds += answer
+        seconds += int(sec) + 5
+        return seconds
 
-    def _check_services_status(self):
-        for service in self.services:
-            selector = self.services[service]["selector"]
-
-            try:
-                element = self.driver.find_element(By.CLASS_NAME, selector)
-
-                if element.is_enabled():
-                    self.services[service]["status"] = "[WORKING]"
-                else:
-                    self.services[service]["status"] = "[OFFLINE]"
-            except NoSuchElementException:
-                self.services[service]["status"] = "[OFFLINE]"
-
-    def _print_services_list(self):
-        for index, service in enumerate(self.services):
-            title = self.services[service]["title"]
-            status = self.services[service]["status"]
-
-            print("[{}] {}".format(str(index + 1), title).ljust(30), status)
-
-        print("\n")
-
-    def _choose_service(self):
-        while True:
-            try:
-                choice = int(input("[~] Choose an option : "))
-            except ValueError:
-                print("[!] Invalid input format. Please try again...")
-                print("\n")
-                continue
-
-            if choice in range(1, 8):
-                key = list(self.services.keys())[choice - 1]
-
-                if self.services[key]["status"] == "[OFFLINE]":
-                    print("[!] Service is offline. Please choose another...")
-                    print("\n")
-                    continue
-
-                print("[+] You have chosen {}".format(self.services[key]["title"]))
-                print("\n")
-                break
+    def check_submit(self, div):
+        remaining = f"/html/body/div[5]/div[{div}]/div/div/h4"
+        try:
+            element = self.driver.find_element("xpath", remaining)
+        except:
+            return None, None
+        if "READY" in element.text:
+            return True, True
+        if "seconds for your next submit" in element.text:
+            output = element.text.split("Please wait ")[1].split(" for")[0]
+            minutes = element.text.split("Please wait ")[1].split(" ")[0]
+            seconds = element.text.split("(s) ")[1].split(" ")[0]
+            sleep_duration = self.convert(minutes, seconds)
+            return sleep_duration, output
+        return element.text, None
+        
+    def check_status(self):
+        statuses = {}
+        for thing in self.xpaths:
+            value = self.xpaths[thing]
+            element = self.driver.find_element('xpath', value)
+            if not element.is_enabled():
+                statuses.update({thing: f"{Fore.RED}[OFFLINE]"})
             else:
-                print("[!] No service found with this number")
-                print("\n")
+                statuses.update({thing: f"{Fore.GREEN}[WORKS]"})
+        return statuses
 
-        return key
+    def _print(self, msg, status = "-"):
+        return f" {Fore.WHITE}[{self.color}{status}{Fore.WHITE}] {msg}"
 
-    def _choose_video_url(self):
-        video_url = input("[~] Video URL : ")
-        print("\n")
+    def change_title(self, arg):
+        if self.clear == "cls":
+            ctypes.windll.kernel32.SetConsoleTitleW(arg)
 
-        return video_url
-
-    def _start_service(self, service, video_url):
-        # Click on the corresponding service button
-        self._wait_for_element(
-            By.CLASS_NAME, self.services[service]["selector"]
-        ).click()
-
-        # Get the container of the selected service
-        container = self._wait_for_element(
-            By.CSS_SELECTOR, "div.col-sm-5.col-xs-12.p-1.container:not(.nonec)"
-        )
-
-        # Insert the video url in the input field
-        input_element = container.find_element(By.TAG_NAME, "input")
-        input_element.clear()
-        input_element.send_keys(video_url)
-
+    def wait_for_xpath(self, xpath):
         while True:
-            # Click the search button
-            container.find_element(By.CSS_SELECTOR, "button.btn.btn-primary").click()
-
-            sleep(3)
-
-            # Click the submit button if it's present, otherwise pass
             try:
-                container.find_element(By.CSS_SELECTOR, "button.btn.btn-dark").click()
-                print(
-                    "[~] {} sent successfully".format(self.services[service]["title"])
-                )
-            except NoSuchElementException:
+                f = self.driver.find_element('xpath', xpath)
+                return True
+            except selenium.common.exceptions.NoSuchElementException:
                 pass
 
-            sleep(3)
-
-            remaining_time = self._compute_remaining_time(container)
-
-            if remaining_time is not None:
-                minutes = remaining_time // 60
-                seconds = remaining_time - minutes * 60
-                print("[~] Sleeping for {} minutes {} seconds".format(minutes, seconds))
-                sleep(remaining_time)
-
-            print("\n")
-
-    def _compute_remaining_time(self, container):
-        try:
-            element = container.find_element(By.CSS_SELECTOR, "span.br")
-            text = element.text
-
-            if "Please wait" in text:
-                [minutes, seconds] = re.findall(r"\d+", text)
-                remaining_time = (
-                    int(minutes) * 60 + int(seconds) + 5
-                )  # plus 5 for safety
-
-                return remaining_time
-            else:
-                print("NO TIME")
-                return None
-        except NoSuchElementException:
-            print("NO ELEMENT")
-            return None
-
-    def _wait_for_element(self, by, value):
-        while True:
-            try:
-                element = self.driver.find_element(by, value)
-                return element
-            except NoSuchElementException:
-                sleep(1)
-
-
 if __name__ == "__main__":
-    bot = Bot()
-    bot.start()
+    obj = zefoy()
+    obj.main()
+    input()
